@@ -26,15 +26,22 @@ namespace ClosedXMLWrapper
 
         public static class Create
         {
-            public static ClosedXML.Excel.XLWorkbook CreateExcel(List<string> columnsName, List<List<string>> rowsValue, FileInfo savePath)
+            public static Excel CreateExcel(List<string> columnsName, List<List<string>> rowsValue, string excelName)
             {
                 DataTable dt = new DataTable();
 
                 ClosedXML.Excel.XLWorkbook workbook = CreateTable(dt, columnsName, rowsValue);
 
-                workbook.SaveAs(savePath);
+                workbook.SaveAs(Convert.ToString(new DirectoryInfo(Directory.GetCurrentDirectory())) + excelName + "xlsx");
 
-                return workbook;
+                return CreateExcel(new FileInfo(Convert.ToString(new DirectoryInfo(Directory.GetCurrentDirectory())) + excelName + "xlsx"));
+            }
+
+            private static Excel CreateExcel(FileInfo excelFile)
+            {
+                Excel excel = new Excel(excelFile);
+
+                return excel;
             }
         }
 
