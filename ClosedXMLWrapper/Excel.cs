@@ -10,60 +10,108 @@ namespace ClosedXMLWrapper
 {
     public class Excel
     {
-        private ClosedXML.Excel.XLWorkbook workbook = null;
-
         private ClosedXML.Excel.IXLWorksheet workSheet = null;
-
+        private ClosedXML.Excel.XLWorkbook workbook = null;
         private ClosedXML.Excel.IXLRange range = null;
-
         private ClosedXML.Excel.IXLTable table = null;
 
         public Excel(FileInfo fullExcelPath)
         {
+            this.range = workSheet.Range(workSheet.FirstCellUsed(), workSheet.LastCellUsed());
             this.workbook = new ClosedXML.Excel.XLWorkbook(fullExcelPath.DirectoryName);
             this.workSheet = workbook.Worksheet(1);
-            this.range = workSheet.Range(workSheet.FirstCellUsed(), workSheet.LastCellUsed());
             this.table = range.AsTable();
         }
 
-        public DataTable AddColumnToDataTable()
+
+        public static class Create
         {
-            return null;
+            public static ClosedXML.Excel.XLWorkbook CreateExcel(List<string> columnsName, List<List<string>> rowsValue, FileInfo savePath)
+            {
+                DataTable dt = new DataTable();
+
+                ClosedXML.Excel.XLWorkbook workbook = CreateTable(dt, columnsName, rowsValue);
+
+                workbook.SaveAs(savePath);
+
+                return workbook;
+            }
         }
 
-        public DataTable AddToDataTable()
+        public class Read
         {
-            return null;
+            public Dictionary<string, string> SearchForRow()
+            {
+                return null;
+            }
+
+            public Dictionary<string, string> SearchForValue()
+            {
+                return null;
+            }
         }
 
-        public Dictionary<string, string> SearchForRow()
+        public class Update
         {
-            return null;
+            public DataTable AddColumnToDataTable()
+            {
+                return null;
+            }
+
+            public void InsertRow()
+            {
+
+            }
         }
 
-        public Dictionary<string, string> SearchForValue()
+        public class Delete
         {
-            return null;
+            public void DeleteRow()
+            {
+
+            }
+
+            public void DeleteValue()
+            {
+
+            }
         }
 
-        public void InsertRow()
+        private static ClosedXML.Excel.XLWorkbook CreateTable(DataTable dt, List<string> columnsName, List<List<string>> rowsValue)
         {
-            
+            AddColumn(dt, columnsName);
+
+            AddRow(dt, rowsValue);
+
+            ClosedXML.Excel.IXLWorksheet ws = new ClosedXML.Excel.XLWorkbook().Worksheets.Add(dt);
+
+            return ws.Workbook;
         }
 
-        public void DeleteRow()
+        private static DataTable AddColumn(DataTable dt, List<string> columnsName)
         {
+            foreach (string column in columnsName)
+                dt.Columns.Add(column, typeof(String));
 
+            return dt;
         }
 
-        public void DeleteValue()
+        private static DataTable AddRow(DataTable dt, List<List<string>> rowsValue)
         {
+            for (int i = 0; i < rowsValue.Count; i++)
+            {
+                DataRow dataRow = dt.NewRow();
 
+                for (int x = 0; x < rowsValue[i].Count; x++)
+                    dataRow[x] = rowsValue[i][x];
+
+                dt.Rows.Add(dataRow);
+            }
+
+            return dt;
         }
 
-        public static void Create()
-        {
-
-        }
+        private void ErrorLog()
+        { }
     }
 }
