@@ -56,6 +56,11 @@ namespace ClosedXMLWrapper
             {
                 return null;
             }
+
+            public DataTable ConvertToDataTable()
+            {
+                return null;
+            }
         }
 
         public class Update
