@@ -23,41 +23,45 @@ namespace ClosedXMLWrapper
             this.table = range.AsTable();
         }
 
+        public Excel()
+        { }
 
-        public static class Create
+        public DataTable ConvertToDataTable()
         {
-            public static Excel CreateExcel(List<string> columnsName, List<List<string>> rowsValue, string excelName)
-            {
-                DataTable dt = new DataTable();
+            return null;
+        }
 
-                ClosedXML.Excel.XLWorkbook workbook = CreateTable(dt, columnsName, rowsValue);
+        public static Excel CreateExcel(List<string> columnsName, List<List<string>> rowsValue, FileInfo excelFile)
+        {
+            DataTable dt = new DataTable();
 
-                workbook.SaveAs(Convert.ToString(new DirectoryInfo(Directory.GetCurrentDirectory())) + excelName + "xlsx");
+            ClosedXML.Excel.XLWorkbook workbook = CreateTable(dt, columnsName, rowsValue);
 
-                return CreateExcel(new FileInfo(Convert.ToString(new DirectoryInfo(Directory.GetCurrentDirectory())) + excelName + "xlsx"));
-            }
+            workbook.SaveAs(excelFile.FullName);
 
-            private static Excel CreateExcel(FileInfo excelFile)
-            {
-                Excel excel = new Excel(excelFile);
+            return CreateExcel(excelFile);
+        }
 
-                return excel;
-            }
+        private static Excel CreateExcel(FileInfo excelFile)
+        {
+            Excel excel = new Excel(excelFile);
+
+            return excel;
         }
 
         public class Read
         {
+            public Dictionary<string, string> SearchForColumn()
+            {
+                return null;
+            }
+
             public Dictionary<string, string> SearchForRow()
             {
                 return null;
             }
 
             public Dictionary<string, string> SearchForValue()
-            {
-                return null;
-            }
-
-            public DataTable ConvertToDataTable()
             {
                 return null;
             }
@@ -70,23 +74,32 @@ namespace ClosedXMLWrapper
                 return null;
             }
 
-            public void InsertRow()
-            {
+            public void UpdateColumn()
+            { }
 
-            }
+            public void InsertColumn()
+            { }
+
+            public void UpdateRow()
+            { }
+
+            public void InsertRow()
+            { }
+
+            public void ReplaceValue()
+            { }
         }
 
         public class Delete
         {
-            public void DeleteRow()
-            {
+            public void DeleteColumn()
+            { }
 
-            }
+            public void DeleteRow()
+            { }
 
             public void DeleteValue()
-            {
-
-            }
+            { }
         }
 
         private static ClosedXML.Excel.XLWorkbook CreateTable(DataTable dt, List<string> columnsName, List<List<string>> rowsValue)
@@ -123,7 +136,20 @@ namespace ClosedXMLWrapper
             return dt;
         }
 
-        private void ErrorLog()
+        private Dictionary<string, string> SearchColumn(ClosedXML.Excel.XLWorkbook workbook, string columnName)
+        {
+
+        }
+
+        private Dictionary<string, string> SearchRow()
+        { }
+
+        private Dictionary<string, string> Search()
+        {
+
+        }
+
+        private void ErrorHandler()
         { }
     }
 }
